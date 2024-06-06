@@ -1,0 +1,11 @@
+
+ddev-initialize:
+  stage: project-template-test
+  image: ochorocho/ochorocho/ddev-docker:v1.23.1
+  services:
+    - name: docker:dind
+  when: always
+  script:
+    - su ddev -c "ddev --version"
+    - su ddev -c "ddev typo3-init"
+    - su ddev -c "ddev restart"
