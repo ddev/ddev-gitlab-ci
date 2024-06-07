@@ -1,11 +1,11 @@
 
 ddev-initialize:
   stage: project-template-test
-  image: ochorocho/ochorocho/ddev-docker:v1.23.1
+  image: ghcr.io/ochorocho/ddev-docker:v1.23.1
   services:
     - name: docker:dind
   when: always
   script:
-    - su ddev -c "ddev --version"
-    - su ddev -c "ddev typo3-init"
-    - su ddev -c "ddev restart"
+    - sudo chown -R ddev:ddev /builds/ # Make it work without messing with the permissions
+    - ddev --version
+    # ... do things
