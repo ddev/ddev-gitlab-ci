@@ -1,6 +1,6 @@
 FROM docker:latest
 
-LABEL org.opencontainers.image.source https://github.com/ochorocho/ddev-docker
+LABEL org.opencontainers.image.source=https://github.com/ochorocho/ddev-gitlab-ci
 
 ARG ddev_version
 ENV DDEV_VERSION=${ddev_version}

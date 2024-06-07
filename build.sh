@@ -2,7 +2,7 @@
 
 GITHUB_OWNER=ddev
 PUSH=""
-IMAGE_NAME="ghcr.io/ochorocho/ddev-docker"
+IMAGE_NAME="ghcr.io/ochorocho/ddev-gitlab-ci"
 DDEV_VERSION=""
 
 # @todo:

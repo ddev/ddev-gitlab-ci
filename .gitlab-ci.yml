@@ -1,7 +1,7 @@
 
 ddev-initialize:
   stage: project-template-test
-  image: ghcr.io/ochorocho/ddev-docker:v1.23.1
+  image: ghcr.io/ochorocho/ddev-gitlab-ci:v1.23.1
   services:
     - name: docker:dind
   when: always

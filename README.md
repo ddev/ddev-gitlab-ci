@@ -1,4 +1,4 @@
-# DDEV Docker in Docker (dind)
+# DDEV GitLab CI - Docker in Docker (dind)
 
 This image is most likely to be used within the GitLab Runner.
 As of now it only tested it on gitlab.com
