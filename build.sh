@@ -6,7 +6,6 @@ IMAGE_NAME="ghcr.io/ochorocho/ddev-docker"
 DDEV_VERSION=""
 
 # @todo:
-#   * Allow version v1.23 -> v1.23
 #   * --push --load options
 #   * Use bats for tests?!
 
