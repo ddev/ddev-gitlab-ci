@@ -1,6 +1,6 @@
 #!/usr/bin/ash
 
-apk add --no-cache bash sudo bash-completion
+apk add --no-cache bash sudo jq
 adduser -D ddev -g "ddev" -s /bin/bash -D ddev -h /home/ddev
 echo "ddev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ddev && chmod 0440 /etc/sudoers.d/ddev
 unamearch=$(uname -m)
