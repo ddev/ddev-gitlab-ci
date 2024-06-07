@@ -48,7 +48,7 @@ loadVersionAndTags() {
   fi
 }
 
-while getopts ":v:h:p" opt; do
+while getopts ":v:hpl" opt; do
   case $opt in
   h)
     help
@@ -59,6 +59,9 @@ while getopts ":v:h:p" opt; do
     ;;
   p)
     PUSH="--push"
+    ;;
+  l)
+    LOAD="--load"
     ;;
   *)
     echo "Invalid option: -$OPTARG"
@@ -71,5 +74,5 @@ done
 loadVersionAndTags
 
 # @todo: Add --load option
-docker buildx build --platform linux/amd64,linux/arm64 --no-cache --pull . -f Dockerfile ${DOCKER_TAGS[@]} --build-arg ddev_version="$DDEV_VERSION" $PUSH
+docker buildx build --platform linux/amd64,linux/arm64 --no-cache --pull . -f Dockerfile ${DOCKER_TAGS[@]} --build-arg ddev_version="$DDEV_VERSION" $PUSH $LOAD
 #docker run --rm -it -v "$(pwd)/test.sh:/tmp/test.sh" --entrypoint "ash" "$IMAGE_NAME:$DDEV_VERSION" /tmp/test.sh
