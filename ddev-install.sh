@@ -28,4 +28,5 @@ rm -Rf ddev "ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz"
 
 # Ensure required folders exist
 mkdir -p /home/ddev/.ddev/commands/host
-chown -R ddev:ddev /home/ddev/.ddev/
+mkdir /builds
+chown -R ddev:ddev /home/ddev/.ddev/ /builds
