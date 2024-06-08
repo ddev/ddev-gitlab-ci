@@ -2,6 +2,7 @@
 
 GITHUB_OWNER=ddev
 PUSH=""
+LOAD=""
 IMAGE_NAME="ghcr.io/ochorocho/ddev-gitlab-ci"
 DDEV_VERSION=""
 
@@ -73,6 +74,9 @@ done
 
 loadVersionAndTags
 
-# @todo: Add --load option
-docker buildx build --platform linux/amd64,linux/arm64 --no-cache --pull . -f Dockerfile ${DOCKER_TAGS[@]} --build-arg ddev_version="$DDEV_VERSION" $PUSH $LOAD
-#docker run --rm -it -v "$(pwd)/test.sh:/tmp/test.sh" --entrypoint "ash" "$IMAGE_NAME:$DDEV_VERSION" /tmp/test.sh
+docker buildx build --platform linux/amd64,linux/arm64 --progress plain --no-cache --pull . -f Dockerfile ${DOCKER_TAGS[@]} --build-arg ddev_version="$DDEV_VERSION" $PUSH $LOAD
+
+if [ $LOAD ]; then
+  docker run --rm -it -v "$(pwd)/test.sh:/tmp/test.sh" --entrypoint "ash" "$IMAGE_NAME:$DDEV_VERSION" /tmp/test.sh
+fi
+
