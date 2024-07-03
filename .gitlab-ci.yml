@@ -1,11 +1,13 @@
-
 ddev-initialize:
   stage: project-template-test
-  image: ghcr.io/ochorocho/ddev-gitlab-ci:v1.23.1
+  image: ghcr.io/ochorocho/ddev-gitlab-ci:v1.23
+  variables:
+    # Remove "umask 0000" usage, so DDEV has permissions on the cloned repository
+    # see https://docs.gitlab.com/runner/configuration/feature-flags.html#available-feature-flags
+    FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: 1
   services:
     - name: docker:dind
   when: always
   script:
-    - sudo chown -R ddev:ddev /builds/ # Make it work without messing with the permissions
     - ddev --version
     # ... do things

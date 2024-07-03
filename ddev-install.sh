@@ -5,6 +5,9 @@ adduser -D ddev -g "ddev" -s /bin/bash -D ddev -h /home/ddev
 echo "ddev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ddev && chmod 0440 /etc/sudoers.d/ddev
 unamearch=$(uname -m)
 
+RED='\033[31m'
+RESET='\033[0m'
+
 # Get binary to be downloaded
 case ${unamearch} in
   x86_64) ARCH="amd64";
@@ -29,4 +32,4 @@ rm -Rf ddev "ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz"
 # Ensure required folders exist
 mkdir -p /home/ddev/.ddev/commands/host
 mkdir /builds
-chown -R ddev:ddev /home/ddev/.ddev/ /builds
+chown -R ddev:ddev /home/ddev/.ddev/

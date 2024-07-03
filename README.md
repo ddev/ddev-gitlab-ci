@@ -3,6 +3,8 @@
 This image is most likely to be used within the GitLab Runner.
 As of now it only tested it on gitlab.com
 
+**GitLab CI example**: [.gitlab-ci.yml](.gitlab-ci.yml)
+
 # Workflow - Image build
 
 Build the image
