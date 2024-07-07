@@ -1,15 +1,14 @@
-name: Build
+name: Test
 
 on:
+  pull_request:
   push:
     branches:
-      - main
-  schedule:
-    - cron: "0 1 * * 1"
-
+      - '**'
+      - '!main'
 jobs:
   build:
-    name: Build and Push Container
+    name: Build and Test Container
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,10 +43,3 @@ jobs:
           sudo snap install yq
           ./build.sh -v ${{ matrix.version }} -l
           DDEV_VERSION=${{ matrix.version }} bash bats tests
-      -
-        name: "Build ddev ${{ matrix.version }} multi-arch image"
-        shell: 'script -q -e -c "bash {0}"'
-        run: |
-          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
-          docker buildx create --use --platform=linux/arm64,linux/amd64
-          ./build.sh -v ${{ matrix.version }} -x -p

@@ -1,6 +1,6 @@
 #!/usr/bin/ash
 
-apk add --no-cache bash sudo jq
+apk add --no-cache bash sudo jq curl
 adduser -D ddev -g "ddev" -s /bin/bash -D ddev -h /home/ddev
 echo "ddev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ddev && chmod 0440 /etc/sudoers.d/ddev
 unamearch=$(uname -m)
@@ -27,9 +27,38 @@ mkdir ddev
 tar xfvz "ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz" --directory ddev
 mv ddev/ddev /usr/local/bin/
 mv ddev/mkcert /usr/local/bin/
+sudo -i ddev /usr/local/bin/mkcert -install
 rm -Rf ddev "ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz"
 
 # Ensure required folders exist
 mkdir -p /home/ddev/.ddev/commands/host
+echo "
+disable_http2: false
+fail_on_hook_fail: false
+instrumentation_opt_in: false
+internet_detection_timeout_ms: 3000
+last_started_version: ${DDEV_VERSION}
+letsencrypt_email: ""
+mkcert_caroot: /home/ddev/.local/share/mkcert
+no_bind_mounts: false
+omit_containers: []
+performance_mode: none
+project_tld: ddev.site
+router: traefik
+router_bind_all_interfaces: false
+router_http_port: \"80\"
+router_https_port: \"443\"
+mailpit_http_port: \"8025\"
+mailpit_https_port: \"8026\"
+simple_formatting: false
+table_style: default
+traefik_monitor_port: \"10999\"
+use_hardened_images: false
+use_letsencrypt: false
+wsl2_no_windows_hosts_mgt: false
+web_environment: []
+xdebug_ide_location: ""
+" > /home/ddev/.ddev/global_config.yaml
+
 mkdir /builds
-chown -R ddev:ddev /home/ddev/.ddev/
+chown -R ddev:ddev /home/ddev /builds

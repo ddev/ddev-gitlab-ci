@@ -15,6 +15,7 @@ help() {
     echo "  * v - DDEV version e.g. 'v1.23.1'"
     echo "  * l - Load the image (--load)"
     echo "  * p - Push the image (--push)"
+    echo "  * x - Build multi-arch image (--platform linux/amd64,linux/arm64)"
 }
 
 loadVersionAndTags() {
@@ -49,7 +50,7 @@ loadVersionAndTags() {
   fi
 }
 
-while getopts ":v:hpl" opt; do
+while getopts ":v:hplx" opt; do
   case $opt in
   h)
     help
@@ -64,6 +65,9 @@ while getopts ":v:hpl" opt; do
   l)
     LOAD="--load"
     ;;
+  x)
+    PLATFORM="--platform linux/amd64,linux/arm64"
+    ;;
   *)
     echo "Invalid option: -$OPTARG"
     help
@@ -74,9 +78,4 @@ done
 
 loadVersionAndTags
 
-docker buildx build --platform linux/amd64,linux/arm64 --progress plain --no-cache --pull . -f Dockerfile ${DOCKER_TAGS[@]} --build-arg ddev_version="$DDEV_VERSION" $PUSH $LOAD
-
-if [ $LOAD ]; then
-  docker run --rm -it -v "$(pwd)/test.sh:/tmp/test.sh" --entrypoint "ash" "$IMAGE_NAME:$DDEV_VERSION" /tmp/test.sh
-fi
-
+docker buildx build ${PLATFORM} --progress plain --no-cache --pull . -f Dockerfile ${DOCKER_TAGS[@]} --build-arg ddev_version="$DDEV_VERSION" $PUSH $LOAD

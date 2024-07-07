@@ -17,6 +17,7 @@ Available options:
  * v - DDEV version e.g. 'v1.23.1' 
  * l - Load the image (--load)
  * p - Push the image (--push)
+ * x - Build multi-arch image (--platform linux/amd64,linux/arm64)
 
 ## Version to tags
 
@@ -26,4 +27,12 @@ Available options:
 | ./build.sh -v v1.22.5 | v1.22.5                        |
 | ./build.sh -v v1.23   | v1.23, v1.23.x (latest bugfix) |
 | ...                   | ...                            |
+
+## Run tests locally
+
+Requires [bats-core](https://bats-core.readthedocs.io/en/stable/installation.html) and [yq](https://github.com/mikefarah/yq/tree/v4.44.2?tab=readme-ov-file#install).
+
+```
+DDEV_VERSION=v1.23.3 bash bats tests
+```
 
