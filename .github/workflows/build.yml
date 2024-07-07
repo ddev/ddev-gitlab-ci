@@ -5,11 +5,11 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 5 * * *"
+    - cron: "0 1 * * 1"
 
 jobs:
   build:
-    name: Build Container
+    name: Build and Push Container
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,9 +22,6 @@ jobs:
         name: Docker info
         run: docker info
       -
-        name: Docker Builder
-        run: docker buildx ls
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       -
@@ -32,23 +29,25 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/amd64,linux/arm64
-      - name: Setup BATS
+      -
+        name: Setup BATS
         uses: mig4/setup-bats@v1
         with:
-          bats-version: 1.2.1
-
-      - name: Check out code
+          bats-version: 1.11.0
+      -
+        name: Check out code
         uses: actions/checkout@v1
-
-      - name: "Test ddev ${{ matrix.version }} image"
+      -
+        name: "Test ddev ${{ matrix.version }} image"
         shell: 'script -q -e -c "bash {0}"'
         run: |
+          sudo snap install yq
           ./build.sh -v ${{ matrix.version }} -l
           DDEV_VERSION=${{ matrix.version }} bash bats tests
       -
-        name: "ddev ${{ matrix.version }}"
+        name: "Build ddev ${{ matrix.version }} multi-arch image"
         shell: 'script -q -e -c "bash {0}"'
         run: |
           echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
           docker buildx create --use --platform=linux/arm64,linux/amd64
-          ./build.sh -v ${{ matrix.version }} -p
+          ./build.sh -v ${{ matrix.version }} -x -p

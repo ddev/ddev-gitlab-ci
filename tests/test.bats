@@ -13,7 +13,7 @@
 @test "See ddev version" {
     run docker-run "ddev version -j"
 
-    version=$(echo "$output" | head -2 | tail -1 | yq '.raw.["DDEV version"]')
+    version=$(echo "$output" | tail -n 1 | yq '.raw.["DDEV version"]')
     regex='^v([0-9]+)\.([0-9]+)\.([0-9]+)$'
 
     [[ $version =~ $regex ]]
@@ -71,6 +71,6 @@
 
 docker-run() {
   local COMMAND=${1}
-  # @todo: Pass in the current version
+
   docker run --rm -it --network ddev-docker ghcr.io/ochorocho/ddev-gitlab-ci:"${DDEV_VERSION}" /bin/sh -c "${COMMAND}"
 }

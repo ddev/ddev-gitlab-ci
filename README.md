@@ -17,6 +17,7 @@ Available options:
  * v - DDEV version e.g. 'v1.23.1' 
  * l - Load the image (--load)
  * p - Push the image (--push)
+ * x - Build multi-arch image (--platform linux/amd64,linux/arm64)
 
 ## Version to tags
 
@@ -27,26 +28,11 @@ Available options:
 | ./build.sh -v v1.23   | v1.23, v1.23.x (latest bugfix) |
 | ...                   | ...                            |
 
+## Run tests locally
 
-## TEST
+Requires [bats-core](https://bats-core.readthedocs.io/en/stable/installation.html) and [yq](https://github.com/mikefarah/yq/tree/v4.44.2?tab=readme-ov-file#install).
 
-Any good to disable TLS?!
-
-```bash
-NETWORK="ddev-docker"
-if docker network inspect "$NETWORK" &>/dev/null; then
-    echo "Network '$NETWORK' already exists."
-else
-    echo "Creating network '$NETWORK'."
-    docker network create "$NETWORK"
-fi
-
-# Get DinD ready - need privileged mode?!?!?
-# WORKING:::  docker run --privileged -e DOCKER_TLS_CERTDIR="" --name ddev-dind -d --network ddev-docker --network-alias docker docker:dind
-docker run --privileged -e DOCKER_TLS_CERTDIR="" --name ddev-dind -d --network ddev-docker --network-alias docker docker:dind-rootless
-
-# Wait till DinD is ready
-
-# Run ddev/docker related commands - - -e DOCKER_HOST="tcp://docker:2375/"
-docker run --rm -it --network ddev-docker ghcr.io/ochorocho/ddev-gitlab-ci:v1.23.3 version
 ```
+DDEV_VERSION=v1.23.3 bash bats tests
+```
+

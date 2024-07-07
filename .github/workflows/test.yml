@@ -8,7 +8,7 @@ on:
       - '!main'
 jobs:
   build:
-    name: Build Container
+    name: Build and Test Container
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -21,9 +21,6 @@ jobs:
         name: Docker info
         run: docker info
       -
-        name: Docker Builder
-        run: docker buildx ls
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       -
@@ -31,9 +28,6 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/amd64,linux/arm64
-      -
-        name: Setup yq
-        uses: mikefarah/yq@master
       -
         name: Setup BATS
         uses: mig4/setup-bats@v1
@@ -46,5 +40,6 @@ jobs:
         name: "Test ddev ${{ matrix.version }} image"
         shell: 'script -q -e -c "bash {0}"'
         run: |
+          sudo snap install yq
           ./build.sh -v ${{ matrix.version }} -l
           DDEV_VERSION=${{ matrix.version }} bash bats tests
