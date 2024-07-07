@@ -31,15 +31,19 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/amd64,linux/arm64
-      - name: Setup BATS
+      -
+        name: Setup yq
+        uses: mikefarah/yq@master
+      -
+        name: Setup BATS
         uses: mig4/setup-bats@v1
         with:
-          bats-version: 1.2.1
-
-      - name: Check out code
+          bats-version: 1.11.0
+      -
+        name: Check out code
         uses: actions/checkout@v1
-
-      - name: "Test ddev ${{ matrix.version }} image"
+      -
+        name: "Test ddev ${{ matrix.version }} image"
         shell: 'script -q -e -c "bash {0}"'
         run: |
           ./build.sh -v ${{ matrix.version }} -l

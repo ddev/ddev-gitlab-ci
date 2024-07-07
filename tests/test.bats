@@ -69,10 +69,6 @@
     [ "$status" -eq 0 ]
 }
 
-yq() {
-  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
-}
-
 docker-run() {
   local COMMAND=${1}
   # @todo: Pass in the current version
