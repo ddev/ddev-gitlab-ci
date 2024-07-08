@@ -1,9 +1,28 @@
 # DDEV GitLab CI - Docker in Docker (dind)
 
 This image is most likely to be used within the GitLab Runner.
-As of now it only tested it on gitlab.com
+As of now it is only tested on gitlab.com
 
 **GitLab CI example**: [.gitlab-ci.yml](.gitlab-ci.yml)
+
+## Configuration for self-hosted GitLab Runners
+
+:warning: This (section) information is "work in progress"
+
+```toml
+# ...
+
+[[runners]]
+  # ...
+  [runners.docker]
+    # ...
+    # Could be a security issues: https://docs.gitlab.com/runner/security/#usage-of-docker-executor
+    privileged = true
+    volumes = ["gitlab-shared-cache:/cache", "/var/run/docker.sock:/var/run/docker.sock"]
+    # Add additional groups the container process will run as.
+    # See https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnersdocker-section
+    group_add = ["999"]
+```
 
 # Workflow - Image build
 
