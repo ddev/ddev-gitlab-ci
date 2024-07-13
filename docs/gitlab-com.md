@@ -1,8 +1,15 @@
+# Running on gitlab.com
+
+The gitlab.com runners are already configured
+correctly and can run the image without any issue.
+
+
+```yaml
 stages:
-  - ddev-stage
+  - testing
 
 ddev-initialize:
-  stage: ddev-stage
+  stage: testing
   image: ghcr.io/ochorocho/ddev-gitlab-ci:v1.23
   variables:
     # Remove "umask 0000" usage, so DDEV has permissions on the cloned repository
@@ -12,5 +19,8 @@ ddev-initialize:
     - name: docker:dind
   when: always
   script:
+    # Fix for: Error response from daemon: invalid mount config for type "bind": bind source path does not exist: /builds/*/*'
+    - ddev config global --no-bind-mounts=true
     - ddev --version
     # ... do things
+```
