@@ -1,6 +1,6 @@
 # Docker in Podman
 
-The following examples shows how to configure the GitLab Runner
+The following example describes how to configure the GitLab Runner
 to use DDEV within the docker executor using Podman (DockerInPodman).
 
 * Configure the [Runner to use Podman](https://docs.gitlab.com/runner/executors/docker.html#use-podman-to-run-docker-commands). More details in the [forum](https://forum.gitlab.com/t/gitlab-runner-setup-with-podman/87893/2)

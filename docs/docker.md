@@ -1,6 +1,6 @@
 # Docker in Docker
 
-The following examples shows how to configure the GitLab Runner
+The following example describes how to configure the GitLab Runner
 to use DDEV within the docker executor (DockerInDocker).
 
 * GitLab [Docker in Docker docs](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker)
