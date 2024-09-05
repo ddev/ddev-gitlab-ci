@@ -1,9 +1,17 @@
 # DDEV GitLab CI - Docker in Docker (dind)
 
-This image is most likely to be used within the GitLab Runner.
-As of now it only tested it on gitlab.com
+A container image to run DDEV on any GitLab Runner (hosted/self-hoster).
 
-**GitLab CI example**: [.gitlab-ci.yml](.gitlab-ci.yml)
+## Configuration for self-hosted GitLab Runners
+
+The Runner can run on the two container engines - Docker and Podman.
+Both container engines work, but the required configuration is slightly different.
+
+### Example configurations for ...
+ 
+* [gitlab.com](docs%2Fgitlab-com.md)
+* [Docker](docs%2Fdocker.md)
+* [Podman](docs%2Fpodman.md)
 
 # Workflow - Image build
 
@@ -27,6 +35,8 @@ Available options:
 | ./build.sh -v v1.22.5 | v1.22.5                        |
 | ./build.sh -v v1.23   | v1.23, v1.23.x (latest bugfix) |
 | ...                   | ...                            |
+
+The image is stored on the [GitHub Package Registry](https://github.com/ochorocho/ddev-gitlab-ci/pkgs/container/ddev-gitlab-ci) 
 
 ## Run tests locally
 
