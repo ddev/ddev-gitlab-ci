@@ -3,6 +3,7 @@
 The gitlab.com runners are already configured
 correctly and can run the image without any issue.
 
+`.gitlab-ci.yml`:
 
 ```yaml
 stages:
