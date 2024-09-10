@@ -3,7 +3,7 @@
 GITHUB_OWNER=ddev
 PUSH=""
 LOAD=""
-IMAGE_NAME="ghcr.io/ochorocho/ddev-gitlab-ci"
+IMAGE_NAME="ghcr.io/ddev/ddev-gitlab-ci"
 DDEV_VERSION=""
 
 # @todo:

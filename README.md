@@ -41,7 +41,7 @@ Available options:
 | ./build.sh -v v1.23   | v1.23, v1.23.x (latest bugfix) |
 | ...                   | ...                            |
 
-The image is stored on the [GitHub Package Registry](https://github.com/ochorocho/ddev-gitlab-ci/pkgs/container/ddev-gitlab-ci) 
+The image is stored on the [GitHub Package Registry](https://github.com/ddev/ddev-gitlab-ci/pkgs/container/ddev-gitlab-ci) 
 
 ### Run tests locally
 

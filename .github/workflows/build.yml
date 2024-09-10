@@ -48,6 +48,6 @@ jobs:
         name: "Build ddev ${{ matrix.version }} multi-arch image"
         shell: 'script -q -e -c "bash {0}"'
         run: |
-          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker buildx create --use --platform=linux/arm64,linux/amd64
           ./build.sh -v ${{ matrix.version }} -x -p

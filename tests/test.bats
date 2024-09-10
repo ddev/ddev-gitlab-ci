@@ -72,5 +72,5 @@
 docker-run() {
   local COMMAND=${1}
 
-  docker run --rm -it --network ddev-docker ghcr.io/ochorocho/ddev-gitlab-ci:"${DDEV_VERSION}" /bin/sh -c "${COMMAND}"
+  docker run --rm -it --network ddev-docker ghcr.io/ddev/ddev-gitlab-ci:"${DDEV_VERSION}" /bin/sh -c "${COMMAND}"
 }

@@ -33,7 +33,7 @@ stages:
 
 ddev-initialize-docker:
   stage: testing
-  image: ghcr.io/ochorocho/ddev-gitlab-ci:v1.23
+  image: ghcr.io/ddev/ddev-gitlab-ci:v1.23
   variables:
     # Remove "umask 0000" usage, so DDEV has permissions on the cloned repository
     # see https://docs.gitlab.com/runner/configuration/feature-flags.html#available-feature-flags
