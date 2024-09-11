@@ -53,4 +53,4 @@ Requires [bats-core](https://bats-core.readthedocs.io/en/stable/installation.htm
 DDEV_VERSION=v1.23.3 bash bats tests
 ```
 
-**Maintained by [@ochorocho](https://github.com/ochorocho)**
+**Maintained by [@ochorocho](https://github.com/ochorocho) and [@b13](https://github.com/b13)**
