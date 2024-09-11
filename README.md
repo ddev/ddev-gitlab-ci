@@ -47,7 +47,10 @@ The image is stored on the [GitHub Package Registry](https://github.com/ddev/dde
 
 Requires [bats-core](https://bats-core.readthedocs.io/en/stable/installation.html) and [yq](https://github.com/mikefarah/yq/tree/v4.44.2?tab=readme-ov-file#install).
 
+
+
 ```
 DDEV_VERSION=v1.23.3 bash bats tests
 ```
 
+**Maintained by [@ochorocho](https://github.com/ochorocho)**
