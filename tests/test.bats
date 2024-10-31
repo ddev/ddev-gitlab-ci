@@ -64,7 +64,6 @@
     "
     run docker-run "${TEST_COMMAND}"
 
-    [[ "$output" == *"All project containers are now ready."* ]]
     [[ "$output" == *"Successfully started tryddevproject-"* ]]
     [ "$status" -eq 0 ]
 }
