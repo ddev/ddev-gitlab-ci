@@ -20,15 +20,29 @@ case ${unamearch} in
 ;;
 esac
 
-wget "https://github.com/ddev/ddev/releases/download/${DDEV_VERSION}/ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz"
-
 # Prepare and install binaries
 mkdir ddev
-tar xfvz "ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz" --directory ddev
+
+if [ "$DDEV_VERSION" = "latest" ]; then
+  # Download ddev head (nightly)
+  wget "https://nightly.link/ddev/ddev/workflows/master-build/master/all-ddev-executables.zip"
+
+  unzip all-ddev-executables.zip
+  tar xfvz ddev_linux-${ARCH}.* --directory ddev
+  # Extract nightly version from file name
+  LAST_STARTED_VERSION=$(find ddev_linux-${ARCH}* | sed -n "s/.*ddev_linux-${ARCH}\.\(.*\)\.tar\.gz/\1/p")
+else
+  # Download specific ddev version
+  wget "https://github.com/ddev/ddev/releases/download/${DDEV_VERSION}/ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz"
+
+  tar xfvz "ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz" --directory ddev
+  LAST_STARTED_VERSION=${DDEV_VERSION}
+fi
+
 mv ddev/ddev /usr/local/bin/
 mv ddev/mkcert /usr/local/bin/
 sudo -i ddev /usr/local/bin/mkcert -install
-rm -Rf ddev "ddev_linux-${ARCH}.${DDEV_VERSION}.tar.gz"
+rm -Rf ddev*
 
 # Ensure required folders exist
 mkdir -p /home/ddev/.ddev/commands/host
@@ -37,7 +51,7 @@ disable_http2: false
 fail_on_hook_fail: false
 instrumentation_opt_in: false
 internet_detection_timeout_ms: 3000
-last_started_version: ${DDEV_VERSION}
+last_started_version: ${LAST_STARTED_VERSION}
 letsencrypt_email: ""
 mkcert_caroot: /home/ddev/.local/share/mkcert
 no_bind_mounts: false

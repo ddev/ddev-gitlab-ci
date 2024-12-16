@@ -36,6 +36,7 @@ Available options:
 
 | Command               | Tags to be created             |
 |-----------------------|--------------------------------|
+| ./build.sh -v latest  | latest (aka head/nightly)      |
 | ./build.sh -v v1.22   | v1.22, v1.22.x (latest bugfix) |
 | ./build.sh -v v1.22.5 | v1.22.5                        |
 | ./build.sh -v v1.23   | v1.23, v1.23.x (latest bugfix) |
