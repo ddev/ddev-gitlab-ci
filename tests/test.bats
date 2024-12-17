@@ -12,9 +12,14 @@
 
 @test "See ddev version" {
     run docker-run "ddev version -j"
-
     version=$(echo "$output" | tail -n 1 | yq '.raw.["DDEV version"]')
-    regex='^v([0-9]+)\.([0-9]+)\.([0-9]+)$'
+
+    if [ "$DDEV_VERSION" = "latest" ]; then
+      # The HEAD version contains a hash e.g. v1.24.1-4-gbce95e65e
+      regex='^v([0-9]+)\.([0-9]+)\.([0-9]+)-([0-9]+)-([a-z0-9]+)$'
+    else
+      regex='^v([0-9]+)\.([0-9]+)\.([0-9]+)$'
+    fi
 
     [[ $version =~ $regex ]]
     [ "$status" -eq 0 ]

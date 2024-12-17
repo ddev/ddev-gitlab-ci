@@ -69,13 +69,22 @@ while getopts ":v:hplx" opt; do
     PLATFORM="--platform linux/amd64,linux/arm64"
     ;;
   *)
-    echo "Invalid option: -$OPTARG"
     help
+    echo "Invalid option: -$OPTARG"
     exit 1
     ;;
   esac
 done
 
-loadVersionAndTags
+# Set version and tag for latest (aka nightly)
+if [ "$OPTION_VERSION" = "latest" ]; then
+  DDEV_VERSION="latest"
+  DOCKER_TAGS=("-t $IMAGE_NAME:latest")
+else
+  loadVersionAndTags
+fi
+
+echo $DDEV_VERSION
+echo $DOCKER_TAGS
 
 docker buildx build ${PLATFORM} --progress plain --no-cache --pull . -f Dockerfile ${DOCKER_TAGS[@]} --build-arg ddev_version="$DDEV_VERSION" $PUSH $LOAD
