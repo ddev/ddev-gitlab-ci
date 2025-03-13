@@ -1,5 +1,13 @@
 #!/bin/bash
 
+setup() {
+  TEST_BREW_PREFIX="$(brew --prefix 2>/dev/null || true)"
+  export BATS_LIB_PATH="${BATS_LIB_PATH}:${TEST_BREW_PREFIX}/lib:/usr/lib/bats"
+  bats_load_library bats-assert
+  bats_load_library bats-file
+  bats_load_library bats-support
+}
+
 @test "See docker version" {
     run docker-run "docker version -f json"
 
@@ -28,8 +36,8 @@
 @test "See mkcert is installed" {
     run docker-run "mkcert -help"
 
-    [[ "$output" == *"Usage of mkcert:"* ]]
-    [ "$status" -eq 0 ]
+    assert_output --partial "Usage of mkcert:"
+    assert_success
 }
 
 @test "Create and run a ddev project" {
@@ -45,17 +53,17 @@
     "
     run docker-run "${TEST_COMMAND}"
 
-    [[ "$output" == *"Configuration complete. You may now run 'ddev start'"* ]]
-    [[ "$output" == *"Hello World"* ]]
-    [ "$status" -eq 0 ]
+    assert_output --partial "Configuration complete. You may now run 'ddev start'"
+    assert_output --partial "Hello World"
+    assert_success
 }
 
 @test "Run ddev debug dockercheck" {
     run docker-run "ddev debug dockercheck"
 
-    [[ "$output" == *"Able to run simple container that mounts a volume."* ]]
-    [[ "$output" == *"Able to use internet inside container."* ]]
-    [ "$status" -eq 0 ]
+    assert_output --partial "Able to run simple container that mounts a volume."
+    assert_output --partial "Able to use internet inside container."
+    assert_success
 }
 
 # Use "--no-bind-mounts=true" to make "ddev debug test" pass. This is only required in testing environment
@@ -69,8 +77,8 @@
     "
     run docker-run "${TEST_COMMAND}"
 
-    [[ "$output" == *"Successfully started tryddevproject-"* ]]
-    [ "$status" -eq 0 ]
+    assert_output --partial "Successfully started tryddevproject-"
+    assert_success
 }
 
 docker-run() {

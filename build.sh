@@ -80,6 +80,18 @@ done
 if [ "$OPTION_VERSION" = "latest" ]; then
   DDEV_VERSION="latest"
   DOCKER_TAGS=("-t $IMAGE_NAME:latest")
+elif [ "$OPTION_VERSION" = "stable" ]; then
+  DDEV_VERSION="$(curl --silent -L -H "Accept: application/vnd.github+json" https://api.github.com/repos/ddev/ddev/releases/latest | jq -r '.tag_name')"
+
+  if [[ ! "$DDEV_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Latest DDEV release '$DDEV_VERSION' is not a valid semver version."
+    exit 2
+  fi
+
+  # Get version like v1.24
+  additional_tag="${DDEV_VERSION%.*}"
+
+  DOCKER_TAGS=("-t $IMAGE_NAME:stable" "-t $IMAGE_NAME:$additional_tag" "-t $IMAGE_NAME:$DDEV_VERSION")
 else
   loadVersionAndTags
 fi

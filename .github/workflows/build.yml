@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ latest, v1.24, v1.23, v1.22 ]
+        version: [ latest, stable ]
     steps:
       -
         name: Checkout code
@@ -30,16 +30,17 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
       -
-        name: Setup BATS
-        uses: mig4/setup-bats@v1
-        with:
-          bats-version: 1.11.0
+        name: Setup bats and bats libs
+        id: setup-bats
+        uses: bats-core/bats-action@3.0.0
       -
         name: Check out code
         uses: actions/checkout@v1
       -
         name: "Test ddev ${{ matrix.version }} image"
         shell: 'script -q -e -c "bash {0}"'
+        env:
+          BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
         run: |
           sudo snap install yq
           ./build.sh -v ${{ matrix.version }} -l

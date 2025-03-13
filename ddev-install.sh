@@ -25,7 +25,7 @@ mkdir ddev
 
 if [ "$DDEV_VERSION" = "latest" ]; then
   # Download ddev head (nightly)
-  wget "https://nightly.link/ddev/ddev/workflows/master-build/master/all-ddev-executables.zip"
+  wget "https://nightly.link/ddev/ddev/workflows/main-build/main/all-ddev-executables.zip"
 
   unzip all-ddev-executables.zip
   tar xfvz ddev_linux-${ARCH}.* --directory ddev
@@ -41,7 +41,7 @@ fi
 
 mv ddev/ddev /usr/local/bin/
 mv ddev/mkcert /usr/local/bin/
-sudo -i ddev /usr/local/bin/mkcert -install
+sudo -u ddev /usr/local/bin/mkcert -install
 rm -Rf ddev*
 
 # Ensure required folders exist
