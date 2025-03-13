@@ -41,7 +41,7 @@ fi
 
 mv ddev/ddev /usr/local/bin/
 mv ddev/mkcert /usr/local/bin/
-sudo -i ddev /usr/local/bin/mkcert -install
+sudo -u ddev /usr/local/bin/mkcert -install
 rm -Rf ddev*
 
 # Ensure required folders exist
