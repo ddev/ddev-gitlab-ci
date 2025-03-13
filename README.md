@@ -9,7 +9,7 @@ Both container engines work, but the required configuration is slightly differen
 
 ### Example configurations
 
-Depending on your setup, you want to pick one if the following example configurations.
+Depending on your setup, you want to pick one of the following example configurations.
 
 * [gitlab.com](docs%2Fgitlab-com.md)
 * [Docker](docs%2Fdocker.md) (self-hosted)
@@ -49,10 +49,8 @@ The image is stored on the [GitHub Package Registry](https://github.com/ddev/dde
 
 Requires [bats-core](https://bats-core.readthedocs.io/en/stable/installation.html) and [yq](https://github.com/mikefarah/yq/tree/v4.44.2?tab=readme-ov-file#install).
 
-
-
 ```
-DDEV_VERSION=v1.23.3 bash bats tests
+DDEV_VERSION=latest bash bats tests
 ```
 
 **Maintained by [@ochorocho](https://github.com/ochorocho) and [@b13](https://github.com/b13)**
