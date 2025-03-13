@@ -3,7 +3,7 @@
 The following example describes how to configure the GitLab Runner
 to use DDEV within the docker executor using Podman (DockerInPodman).
 
-* Configure the [Runner to use Podman](https://docs.gitlab.com/runner/executors/docker.html#use-podman-to-run-docker-commands). More details in the [forum](https://forum.gitlab.com/t/gitlab-runner-setup-with-podman/87893/2)
+* Configure the [Runner to use Podman](https://docs.gitlab.com/runner/executors/docker.html#use-podman-to-run-docker-commands). More details in the [forum](https://forum.gitlab.com/t/gitlab-runner-setup-with-podman/87893/2).
 
 ## GitLab Runner config.toml
 
@@ -23,7 +23,7 @@ to use DDEV within the docker executor using Podman (DockerInPodman).
     host = "unix:///run/user/1000/podman/podman.sock"
 ```
 
-## GitLab CI Job for DDEV  
+## GitLab CI Job for DDEV
 
 `.gitlab-ci.yml`:
 
@@ -33,7 +33,7 @@ stages:
 
 ddev-initialize-podman:
   stage: testing
-  image: ghcr.io/ddev/ddev-gitlab-ci:v1.23
+  image: ghcr.io/ddev/ddev-gitlab-ci:stable
   variables:
     # Remove "umask 0000" usage, so DDEV has permissions on the cloned repository
     # see https://docs.gitlab.com/runner/configuration/feature-flags.html#available-feature-flags

@@ -23,7 +23,7 @@ to use DDEV within the docker executor (DockerInDocker).
     allowed_privileged_services = ["docker:dind"]
 ```
 
-## GitLab CI Job for DDEV  
+## GitLab CI Job for DDEV
 
 `.gitlab-ci.yml`:
 
@@ -33,7 +33,7 @@ stages:
 
 ddev-initialize-docker:
   stage: testing
-  image: ghcr.io/ddev/ddev-gitlab-ci:v1.23
+  image: ghcr.io/ddev/ddev-gitlab-ci:stable
   variables:
     # Remove "umask 0000" usage, so DDEV has permissions on the cloned repository
     # see https://docs.gitlab.com/runner/configuration/feature-flags.html#available-feature-flags
