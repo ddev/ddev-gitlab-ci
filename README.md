@@ -1,6 +1,6 @@
 # DDEV GitLab CI - Docker in Docker (dind)
 
-A container image to run DDEV on any GitLab Runner (hosted/self-hoster).
+A container image to run DDEV on any GitLab Runner (hosted/self-hosted).
 
 ## Configuration for GitLab Runners
 
