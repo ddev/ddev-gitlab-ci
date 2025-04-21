@@ -46,9 +46,15 @@ jobs:
           ./build.sh -v ${{ matrix.version }} -l
           DDEV_VERSION=${{ matrix.version }} bash bats tests
       -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
         name: "Build ddev ${{ matrix.version }} multi-arch image"
         shell: 'script -q -e -c "bash {0}"'
         run: |
-          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker buildx create --use --platform=linux/arm64,linux/amd64
           ./build.sh -v ${{ matrix.version }} -x -p
