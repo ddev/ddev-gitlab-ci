@@ -43,7 +43,12 @@ Available options:
 | ./build.sh -v v1.23   | v1.23, v1.23.x (latest bugfix) |
 | ...                   | ...                            |
 
-The image is stored on the [GitHub Package Registry](https://github.com/ddev/ddev-gitlab-ci/pkgs/container/ddev-gitlab-ci)
+The image is stored on the [GitHub Packages Registry](https://github.com/ddev/ddev-gitlab-ci/pkgs/container/ddev-gitlab-ci)
+
+> [!NOTE]
+> `GITHUB_TOKEN` needs additional configuration https://github.com/orgs/community/discussions/26274#discussioncomment-3251137:
+> Head over to $yourOrganization → Packages → $yourPackage → Package settings (to the right / bottom)
+> And configure “Manage Actions access” section to allow the git repository in question write permissions on this package/docker repository
 
 ### Run tests locally
 
