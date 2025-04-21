@@ -16,7 +16,7 @@ jobs:
     steps:
       -
         name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
         name: Docker info
         run: docker info
@@ -31,10 +31,12 @@ jobs:
       -
         name: Setup bats and bats libs
         id: setup-bats
-        uses: bats-core/bats-action@3.0.0
-      -
-        name: Check out code
-        uses: actions/checkout@v1
+        uses: bats-core/bats-action@3.0.1
+        with:
+          support-path: "${{ github.workspace }}/tests/bats-support"
+          assert-path: "${{ github.workspace }}/tests/bats-assert"
+          detik-path: "${{ github.workspace }}/tests/bats-detik"
+          file-path: "${{ github.workspace }}/tests/bats-file"
       -
         name: "Test ddev ${{ matrix.version }} image"
         shell: 'script -q -e -c "bash {0}"'

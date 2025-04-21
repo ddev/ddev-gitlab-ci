@@ -6,10 +6,6 @@ LOAD=""
 IMAGE_NAME="ghcr.io/ddev/ddev-gitlab-ci"
 DDEV_VERSION=""
 
-# @todo:
-#   * --push --load options
-#   * Use bats for tests?!
-
 help() {
     echo "Available options:"
     echo "  * v - DDEV version e.g. 'v1.23.1'"
@@ -98,5 +94,9 @@ fi
 
 echo $DDEV_VERSION
 echo $DOCKER_TAGS
+
+# https://docs.docker.com/build/building/variables/#buildx_no_default_attestations
+# buildx creates extra manifests that we don't need
+export BUILDX_NO_DEFAULT_ATTESTATIONS=1
 
 docker buildx build ${PLATFORM} --progress plain --no-cache --pull . -f Dockerfile ${DOCKER_TAGS[@]} --build-arg ddev_version="$DDEV_VERSION" $PUSH $LOAD
