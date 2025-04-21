@@ -20,8 +20,6 @@ ddev-initialize:
     - name: docker:dind
   when: always
   script:
-    # Fix for: Error response from daemon: invalid mount config for type "bind": bind source path does not exist: /builds/*/*'
-    - ddev config global --no-bind-mounts=true
     - ddev --version
     # ... do things
 ```
