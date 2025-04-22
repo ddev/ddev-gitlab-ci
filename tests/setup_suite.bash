@@ -9,7 +9,28 @@ setup_suite() {
       docker network create "$NETWORK"
   fi
 
-  docker run --privileged -e DOCKER_TLS_CERTDIR="" --name ddev-dind -d --network ddev-docker --network-alias docker docker:dind
+  # Create a shared volume for bind mounts
+  SHARED_VOLUME="ddev-shared-volume"
+  if docker volume inspect "$SHARED_VOLUME" &>/dev/null; then
+      echo "Volume '$SHARED_VOLUME' already exists."
+  else
+      echo "Creating volume '$SHARED_VOLUME'."
+      docker volume create "$SHARED_VOLUME"
+  fi
+
+  # Initialize the shared volume with full permissions
+  docker run --rm \
+    -v "$SHARED_VOLUME:/mnt/ddev-shared" \
+    alpine:latest sh -c "mkdir -p /mnt/ddev-shared && chmod -R 777 /mnt/ddev-shared"
+
+  # Run DIND with the shared volume mounted
+  docker run --privileged -e DOCKER_TLS_CERTDIR="" \
+    --name ddev-dind \
+    -d \
+    --network ddev-docker \
+    --network-alias docker \
+    -v "$SHARED_VOLUME:/mnt/ddev-shared" \
+    docker:dind
   waitForDinD
 }
 
@@ -33,4 +54,5 @@ waitForDinD() {
 teardown_suite() {
   docker stop ddev-dind
   docker rm ddev-dind
+  docker volume rm ddev-shared-volume
 }
