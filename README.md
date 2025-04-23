@@ -1,3 +1,7 @@
+[![Docker Image](https://img.shields.io/badge/GitHub-Packages-2496ED?logo=github&logoColor=white)](https://github.com/ddev/ddev-gitlab-ci/pkgs/container/ddev-gitlab-ci)
+[![build](https://github.com/ddev/ddev-gitlab-ci/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/ddev/ddev-gitlab-ci/actions/workflows/build.yml?query=branch%3Amain)
+[![last commit](https://img.shields.io/github/last-commit/ddev/ddev-gitlab-ci)](https://github.com/ddev/ddev-gitlab-ci/commits)
+
 # DDEV GitLab CI - Docker in Docker (dind)
 
 A container image to run DDEV on any GitLab Runner (hosted/self-hosted).
@@ -27,34 +31,36 @@ Build the image:
 ```
 
 Available options:
- * v - DDEV version e.g. 'v1.23.1'
- * l - Load the image (--load)
- * p - Push the image (--push)
- * x - Build multi-arch image (--platform linux/amd64,linux/arm64)
+ * `-v` - DDEV version e.g. `v1.24.4`
+ * `-l` - Load the image (`--load`)
+ * `-p` - Push the image (`--push`)
+ * `-x` - Build multi-arch image (`--platform linux/amd64,linux/arm64`)
 
 ### Version to tags
 
-| Command               | Tags to be created             |
-|-----------------------|--------------------------------|
-| ./build.sh -v latest  | latest (aka head/nightly)      |
-| ./build.sh -v stable  | stable, v1.x, v1.x.y (release) |
-| ./build.sh -v v1.22   | v1.22, v1.22.x (latest bugfix) |
-| ./build.sh -v v1.22.5 | v1.22.5                        |
-| ./build.sh -v v1.23   | v1.23, v1.23.x (latest bugfix) |
-| ...                   | ...                            |
+| Command                 | Tags to be created                   |
+|-------------------------|--------------------------------------|
+| `./build.sh -v latest`  | `latest` (aka head/nightly)          |
+| `./build.sh -v stable`  | `stable`, `v1.x`, `v1.x.y` (release) |
+| `./build.sh -v v1.24`   | `v1.24`, `v1.24.x` (latest bugfix)   |
+| `./build.sh -v v1.24.4` | `v1.24.4`                            |
+| `./build.sh -v v1.23`   | `v1.23`, `v1.23.x` (latest bugfix)   |
+| ...                     | ...                                  |
 
-The image is stored on the [GitHub Packages Registry](https://github.com/ddev/ddev-gitlab-ci/pkgs/container/ddev-gitlab-ci)
+The image is stored on the [GitHub Packages Registry](https://github.com/ddev/ddev-gitlab-ci/pkgs/container/ddev-gitlab-ci).
 
 > [!NOTE]
 > `GITHUB_TOKEN` needs additional configuration https://github.com/orgs/community/discussions/26274#discussioncomment-3251137:
+>
 > Head over to $yourOrganization → Packages → $yourPackage → Package settings (to the right / bottom)
+>
 > And configure “Manage Actions access” section to allow the git repository in question write permissions on this package/docker repository
 
 ### Run tests locally
 
 Requires [bats-core](https://bats-core.readthedocs.io/en/stable/installation.html) and [yq](https://github.com/mikefarah/yq/tree/v4.44.2?tab=readme-ov-file#install).
 
-```
+```bash
 DDEV_VERSION=latest bash bats tests
 ```
 
