@@ -39,9 +39,9 @@ else
   LAST_STARTED_VERSION=${DDEV_VERSION}
 fi
 
-mv ddev/ddev /usr/local/bin/
+mv ddev/ddev /usr/local/bin/ddev
 mv ddev/ddev-hostname /usr/local/bin/ddev-hostname
-mv ddev/mkcert /usr/local/bin/
+mv ddev/mkcert /usr/local/bin/mkcert
 sudo -u ddev /usr/local/bin/mkcert -install
 rm -Rf ddev*
 
