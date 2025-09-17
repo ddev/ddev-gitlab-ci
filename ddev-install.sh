@@ -40,6 +40,7 @@ else
 fi
 
 mv ddev/ddev /usr/local/bin/
+mv ddev/ddev-hostname /usr/local/bin/ddev-hostname
 mv ddev/mkcert /usr/local/bin/
 sudo -u ddev /usr/local/bin/mkcert -install
 rm -Rf ddev*
