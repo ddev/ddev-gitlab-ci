@@ -6,11 +6,12 @@ on:
       - "**.md"
   push:
     branches:
-      - '**'
-      - '!main'
+      - 'main'
     paths-ignore:
       - "**.md"
   workflow_dispatch:
+  schedule:
+    - cron: '33 10 * * *'
 
 jobs:
   build:
