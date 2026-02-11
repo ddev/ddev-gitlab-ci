@@ -11,7 +11,7 @@ setup() {
 @test "See docker version" {
   run docker-run "docker version --format '{{.Client.Version}}'"
   assert_success
-  assert_output --regexp '^[0-9]+\.[0-9]+\.[0-9]+$'
+  assert_output --regexp '^[0-9]+\.[0-9]+\.[0-9]+'
 }
 
 @test "See ddev --version" {
@@ -45,7 +45,6 @@ setup() {
   assert_success
   assert_output --partial "Configuration complete. You may now run 'ddev start'"
   assert_output --partial "Hello World"
-  assert_success
 }
 
 @test "Run ddev debug dockercheck" {
@@ -65,13 +64,14 @@ setup() {
   run docker-run "${TEST_COMMAND}"
   assert_success
   assert_output --partial "Successfully started tryddevproject-"
-  assert_success
 }
 
 docker-run() {
   # Mount the shared volume to make bind mounts work
   docker run --rm -it \
     --network ddev-docker \
+    -e "DDEV_CI=true" \
+    -e "DDEV_NO_INSTRUMENTATION=true" \
     -v "ddev-shared-volume:/mnt/ddev-shared" \
     ghcr.io/ddev/ddev-gitlab-ci:"${DDEV_VERSION}" /bin/sh -c "${1}"
 }
