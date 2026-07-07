@@ -3,6 +3,7 @@
 GITHUB_OWNER=ddev
 PUSH=""
 LOAD=""
+FORCE=""
 IMAGE_NAME="ghcr.io/ddev/ddev-gitlab-ci"
 DDEV_VERSION=""
 
@@ -12,6 +13,16 @@ help() {
     echo "  * l - Load the image (--load)"
     echo "  * p - Push the image (--push)"
     echo "  * x - Build multi-arch image (--platform linux/amd64,linux/arm64)"
+    echo "  * f - Force build and push even if the tag already exists in the registry"
+}
+
+# 'latest' always rebuilds; other tags skip if already pushed, unless forced.
+tagAlreadyExists() {
+  if [[ "$OPTION_VERSION" == "latest" ]] || [[ -n "$FORCE" ]] || [[ -z "$PUSH" ]]; then
+    return 1
+  fi
+
+  docker manifest inspect "$IMAGE_NAME:$DDEV_VERSION" >/dev/null 2>&1
 }
 
 loadVersionAndTags() {
@@ -46,7 +57,7 @@ loadVersionAndTags() {
   fi
 }
 
-while getopts ":v:hplx" opt; do
+while getopts ":v:hplxf" opt; do
   case $opt in
   h)
     help
@@ -63,6 +74,9 @@ while getopts ":v:hplx" opt; do
     ;;
   x)
     PLATFORM="--platform linux/amd64,linux/arm64"
+    ;;
+  f)
+    FORCE="true"
     ;;
   *)
     help
@@ -94,6 +108,11 @@ fi
 
 echo $DDEV_VERSION
 echo $DOCKER_TAGS
+
+if tagAlreadyExists; then
+  echo "Tag $IMAGE_NAME:$DDEV_VERSION already exists in the registry, skipping build and push. Use -f to force a rebuild."
+  exit 0
+fi
 
 # https://docs.docker.com/build/building/variables/#buildx_no_default_attestations
 # buildx creates extra manifests that we don't need
