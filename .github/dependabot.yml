@@ -10,6 +10,21 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
-    # Don't respond to updates right away
+    # Let new releases settle before opening a PR
     cooldown:
-      default-days: 30
+      default-days: 7
+    # Open a single combined PR for all action updates
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    # Floating major tags (@v4) auto-track minor/patch, so bump only on major.
+    ignore:
+      - dependency-name: "docker/*"
+        update-types:
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
+      - dependency-name: "actions/*"
+        update-types:
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
