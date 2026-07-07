@@ -12,4 +12,4 @@ updates:
       interval: "weekly"
     # Don't respond to updates right away
     cooldown:
-      - default-days: 30
+      default-days: 30
