@@ -12,6 +12,11 @@ on:
   schedule:
     - cron: "0 1 * * 1"
   workflow_dispatch:
+    inputs:
+      force_rebuild:
+        description: "Force rebuild and push even if the tag already exists in ghcr.io"
+        type: boolean
+        default: false
 
 jobs:
   build:
@@ -65,4 +70,4 @@ jobs:
         shell: 'script -q -e -c "bash {0}"'
         run: |
           docker buildx create --use --platform=linux/arm64,linux/amd64
-          ./build.sh -v ${{ matrix.version }} -x -p
+          ./build.sh -v ${{ matrix.version }} -x -p ${{ inputs.force_rebuild && '-f' || '' }}
