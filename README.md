@@ -6,6 +6,9 @@
 
 A container image to run DDEV on any GitLab Runner (hosted/self-hosted).
 
+> [!TIP]
+> In case you are looking for a way to run DDEV natively see the [GitLab Runner DDEV Executor Project](https://gitlab.com/ochorocho/gitlab-runner-ddev-executor)
+
 ## Configuration for GitLab Runners
 
 The Runner can run on the two container engines - Docker and Podman.
