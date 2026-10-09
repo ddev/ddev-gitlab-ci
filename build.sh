@@ -16,6 +16,15 @@ help() {
     echo "  * f - Force build and push even if the tag already exists in the registry"
 }
 
+# Authenticate when GITHUB_TOKEN is set to avoid the low anonymous API rate limit
+github_api() {
+  local auth=()
+  if [[ -n "$GITHUB_TOKEN" ]]; then
+    auth=(-H "Authorization: Bearer $GITHUB_TOKEN")
+  fi
+  curl --silent --show-error --fail -L -H "Accept: application/vnd.github+json" "${auth[@]}" "https://api.github.com/$1"
+}
+
 # 'latest' always rebuilds; other tags skip if already pushed, unless forced.
 tagAlreadyExists() {
   if [[ "$OPTION_VERSION" == "latest" ]] || [[ -n "$FORCE" ]] || [[ -z "$PUSH" ]]; then
@@ -27,7 +36,7 @@ tagAlreadyExists() {
 
 loadVersionAndTags() {
   # @todo: Currently limited to 99 releases, may use pagination
-  ddev_releases=($(curl --silent -L -H "Accept: application/vnd.github+json" https://api.github.com/repos/${GITHUB_OWNER}/ddev/releases?per_page=99 | jq -r '.[].tag_name'))
+  ddev_releases=($(github_api "repos/${GITHUB_OWNER}/ddev/releases?per_page=99" | jq -r '.[].tag_name'))
 
   IFS='.' read -r -a version <<< "$OPTION_VERSION"
   bugfix_release="${version[2]}"
@@ -91,7 +100,7 @@ if [ "$OPTION_VERSION" = "latest" ]; then
   DDEV_VERSION="latest"
   DOCKER_TAGS=("-t $IMAGE_NAME:latest")
 elif [ "$OPTION_VERSION" = "stable" ]; then
-  DDEV_VERSION="$(curl --silent -L -H "Accept: application/vnd.github+json" https://api.github.com/repos/ddev/ddev/releases/latest | jq -r '.tag_name')"
+  DDEV_VERSION="$(github_api "repos/${GITHUB_OWNER}/ddev/releases/latest" | jq -r '.tag_name')"
 
   if [[ ! "$DDEV_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo "Error: Latest DDEV release '$DDEV_VERSION' is not a valid semver version."
