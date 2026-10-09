@@ -51,9 +51,10 @@ jobs:
           file-path: "${{ github.workspace }}/tests/bats-file"
       -
         name: "Test ddev ${{ matrix.version }} image"
-        shell: 'script -q -e -c "bash {0}"'
+        shell: 'script -q -e -c "bash -e {0}"'
         env:
           BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           sudo snap install yq
           ./build.sh -v ${{ matrix.version }} -l
@@ -67,7 +68,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: "Build ddev ${{ matrix.version }} multi-arch image"
-        shell: 'script -q -e -c "bash {0}"'
+        shell: 'script -q -e -c "bash -e {0}"'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           docker buildx create --use --platform=linux/arm64,linux/amd64
           ./build.sh -v ${{ matrix.version }} -x -p ${{ inputs.force_rebuild && '-f' || '' }}
