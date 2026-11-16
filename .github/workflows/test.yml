@@ -35,6 +35,7 @@ jobs:
         id: setup-bats
         uses: bats-core/bats-action@4.1.0
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           support-path: "${{ github.workspace }}/tests/bats-support"
           assert-path: "${{ github.workspace }}/tests/bats-assert"
           detik-path: "${{ github.workspace }}/tests/bats-detik"
