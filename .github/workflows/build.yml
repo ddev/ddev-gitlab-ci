@@ -57,7 +57,6 @@ jobs:
           BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          sudo snap install yq
           ./build.sh -v ${{ matrix.version }} -l
           DDEV_VERSION=${{ matrix.version }} bash bats tests
       -
