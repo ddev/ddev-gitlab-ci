@@ -68,7 +68,7 @@ setup() {
 
 docker-run() {
   # Mount the shared volume to make bind mounts work
-  docker run --rm -it --pull never \
+  docker run --rm -i --pull never \
     --network ddev-docker \
     -e "DDEV_CI=true" \
     -e "DDEV_NO_INSTRUMENTATION=true" \
